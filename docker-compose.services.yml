@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  app_services:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_services
+    volumes:
+      - ./apps/app-services:/var/www/app-services
+    networks:
+      - app-network
+
+  services_mysql:
+    image: mysql:8.0
+    container_name: services_mysql
+    environment:
+      MYSQL_DATABASE: services_db
+      MYSQL_ROOT_PASSWORD: secret_password
+    ports:
+      - "3307:3306"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true

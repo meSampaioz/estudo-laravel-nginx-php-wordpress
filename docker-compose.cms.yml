@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  app_cms:
+    image: wordpress:latest
+    container_name: app_cms
+    environment:
+      WORDPRESS_DB_HOST: cms_mysql:3306
+      WORDPRESS_DB_NAME: cms_db
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: secret_password
+    volumes:
+      - ./apps/app-cms:/var/www/html
+    networks:
+      - app-network
+
+  cms_mysql:
+    image: mysql:8.0
+    container_name: cms_mysql
+    environment:
+      MYSQL_DATABASE: cms_db
+      MYSQL_ROOT_PASSWORD: secret_password
+    ports:
+      - "3308:3306"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true

@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  app_admin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_admin
+    volumes:
+      - ./apps/app-admin:/var/www/app-admin
+    networks:
+      - app-network
+
+  admin_mysql:
+    image: mysql:8.0
+    container_name: admin_mysql
+    environment:
+      MYSQL_DATABASE: admin_db
+      MYSQL_ROOT_PASSWORD: secret_password
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true
